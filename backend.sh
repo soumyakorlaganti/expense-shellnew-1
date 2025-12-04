@@ -4,40 +4,40 @@ source ./common.sh
 
 check_root
 
-dnf module disable nodejs -y &>>$LOG_FILE
-dnf module enable nodejs:20 -y &>>$LOG_FILE
-dnf install nodejs -y &>>$LOG_FILE
+dnf module disable nodejs -y &>>$LOGFILE
+dnf module enable nodejs:20 -y &>>$LOGFILE
+dnf install nodejs -y &>>$LOGFILE
 
-id expense &>>$LOG_FILE
+id expense &>>$LOGFILE
 if [ $? -ne 0 ]
 then
-    useradd expense &>>$LOG_FILE
+    useradd expense &>>$LOGFILE
 else
     echo -e "Expense user already created...$Y SKIPPING $N"
 fi
 
-mkdir -p /app &>>$LOG_FILE
+mkdir -p /app &>>$LOGFILE
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOGFILE
 
 cd /app
 rm -rf /app/*
-unzip /tmp/backend.zip &>>$LOG_FILE
+unzip /tmp/backend.zip &>>$LOGFILE
 
-npm install &>>$LOG_FILE
+npm install &>>$LOGFILE
 
-cp /home/ec2-user/expense-shellnew/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE
+cp /home/ec2-user/expense-shellnew/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 
 
-systemctl daemon-reload &>>$LOG_FILE
-systemctl start backend &>>$LOG_FILE
-systemctl enable backend &>>$LOG_FILE
+systemctl daemon-reload &>>$LOGFILE
+systemctl start backend &>>$LOGFILE
+systemctl enable backend &>>$LOGFILE
 
-dnf install mysql -y &>>$LOG_FILE
+dnf install mysql -y &>>$LOGFILE
 
-mysql -h db.soumyadevops.space -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
+mysql -h db.soumyadevops.space -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOGFILE
 
-systemctl restart backend &>>$LOG_FILE
+systemctl restart backend &>>$LOGFILE
 
 
 
