@@ -60,7 +60,7 @@ source ./common.sh
 
 check_root
 
-dnf install mysql-serjver -y &>>$LOGFILE
+dnf install mysql-server -y &>>$LOGFILE
 
 systemctl enable mysqld &>>$LOGFILE
 
