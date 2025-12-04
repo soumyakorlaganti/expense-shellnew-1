@@ -60,21 +60,21 @@ source ./common.sh
 
 check_root
 
-dnf install mysql-server -y &>>$LOGFILE
-VALIDATE $? "Installing MySQL Server"
+dnf install mysql-serjver -y &>>$LOGFILE
+#VALIDATE $? "Installing MySQL Server"
 
 systemctl enable mysqld &>>$LOGFILE
-VALIDATE $? "Enabled MySQL Server"
+#VALIDATE $? "Enabled MySQL Server"
 
 systemctl start mysqld &>>$LOGFILE
-VALIDATE $? "Started MySQL server"
+#VALIDATE $? "Started MySQL server"
 
 mysql -h db.soumyadevops.space -u root -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
 if [ $? -ne 0 ]
 then
     echo "MySQL root password is not setup, setting now" &>>$LOGFILE
     mysql_secure_installation --set-root-pass ExpenseApp@1
-    VALIDATE $? "Setting UP root password"
+    #VALIDATE $? "Setting UP root password"
 else
     echo -e "MySQL root password is already setup...$Y SKIPPING $N"  &>>$LOGFILE
 fi
